@@ -1,0 +1,10 @@
+这个程序对点的数量有限制：
+原始文件中都是10000
+所以当点数超过1万时，会出错。
+
+hull.h
+#define MAXPOINTS 10000
+
+pointsites.h
+#define MAXBLOCKS 10000
+

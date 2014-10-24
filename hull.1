@@ -1,0 +1,142 @@
+.TH hull l "May 1 1995"
+.SH NAME
+\fIhull\fP - convex hulls, Delaunay triangulations, alpha shapes
+.SH SUMMARY
+This \fIhull\fP program computes the convex hull of a point set
+in general (but small!) dimension.  The input is a list of points,
+and the output is a list of facets of the convex hull of the points,
+each facet presented as a list of its vertices.
+(The facets are assumed to be simplices, such as triangles in 3d;
+this is enforced by tiebreaking, giving a triangulation of a facet
+by "placing".)
+The program can also compute Delaunay triangulations and alpha shapes,
+and volumes of Voronoi regions.  The program uses exact arithmetic
+when possible, with a moderate speed penalty. (Typically a factor of 2 or 3
+for Delaunay triangulation, less for convex hulls).
+Output in postscript and OFF format for geomview is supported.
+.LP
+Example call:
+.LP
+.nf
+hull <<EOF
+	0 0
+	1 1
+	2 2
+	EOF
+<chatter on stderr>
+%hull
+0 
+2 
+.fi
+The three points (0,0), (1,1), and (2,2) are in the line \fIy=x\fP in the plane,
+and their convex hull is the line segment (0,0)--(2,2), with facets
+(0,0), which is point number 0, and (2,2) which is point number 2.
+
+.SH SYNOPSIS
+.B hull
+\-d
+\-f\fI<format>\fP
+\-A
+\-aa\fI<alpha>\fP
+\-af\fI<format>\fP
+\-oN
+\-ov
+\-s\fI<seed>\fP
+\-r
+\-m\fI<multiplier>\fP
+\-X\fI<debug_file>\fP
+\-i\fI<input_file>\fP
+\-oF\I<output_file>\fP
+
+.SH DESCRIPTION
+The \fIinput_file\fP (stdin if none specified) is a sequence
+of points (also called sites), separated by \\n; each point is specified
+as a group of \fId\fP floats, for some small \fId\fP.
+.LP
+The \fIoutput_file\fP (stdout if none specified)
+ gives \fId\fP-tuples of the input points, where
+a point is given as an integer \fIi\fP if it was the \fIi\fP'th
+point in the \fIinput_file\fP.
+If the convex hull lies in a flat (affine subspace)
+of dimension \fId'\fP, the output will comprise a list of \fId'\fP-tuples,
+the vertices of the convex hull relative to that flat.
+.LP
+The output tuples represent the facets of the convex hull
+of the input set.  A facet which is not a simplex is output
+implicitly as the collection of simplices of its triangulation.
+.LP
+The output for Delaunay triangulation includes a "point at infinity",
+numbered -1; facets including it correspond to facets of the convex hull
+of the sites.
+.LP
+Some chatter will appear on stderr, or on \fIdebug_file\fP if specified.
+.LP
+The coordinates of the input points are rounded to integers.
+With -m\fI<multiplier>\fP, the coordinates are multiplied by mult before
+this rounding.
+.LP
+The program attempts to use a method that gives exact answers
+to numerical tests; in some circumstances, this may fail,
+and with some warnings, the program continues, using approximate
+arithmetic.
+.LP
+More detail on the options:
+.TP
+.B -d
+compute the Delaunay triangulation of the input set.
+.TP
+.B -f\fI<format>\fP
+give the main output (convex hull or Delaunay triangulation)
+in output \fI<format>\fP, which is by default the list of vertex numbers
+described above, or
+.B ps,
+for postscript output of planar points.
+.TP
+.B -aa\fI<alpha>\fP
+compute the alpha shape using parameter \fI<alpha>\fP: the output is
+the set of all
+\fId\fP-tuples of sites such that there is a ball of radius \fI<alpha>\fP
+containing those sites on its bounding sphere, and containing no other sites.
+A Delaunay triangulation computation is implied by this option and by -A.
+.TP
+.B -af\fI<format>\fP
+output the alpha shape in format \fI<format>\fP, as in option
+.B -f.
+.B -A
+compute the alpha shape of the input, finding the smallest alpha
+so that the sites are all contained in the alpha-shape.
+.TP
+.B -r
+randomly shuffle the input points; this may speed up the program.
+.TP
+.B -s\fI<seed>\fP
+randomly shuffle using \fI<seed>\fP for the random number generator.
+.TP
+.B -oN
+do not produce main output (convex hull or Delaunay triangulation).
+   If you want an alpha shape only, you need this to turn off the Delaunay output.
+
+.TP
+.B -ov
+Give volumes of Voronoi regions of input sites, and in general
+\fId'\fP-volumes of \fId'\fP-dimensional Voronoi cells.
+.SH BUGS/PORTABILITY
+.LP
+Tie-breaking is done so that all reported facets are
+simplices.
+If the input points are degenerate, some hull facets may be;
+for example, some Delaunay simplices may have zero volume.
+Determining non-simplicial facets or deleting zero-volume
+Delaunauy simplices could be done in post-processing
+(not implemented).
+.LP
+The file rand.c includes calls to pseudo-random number generators;
+.LP
+No simplices are deleted; the only way to free storage
+is to free it all using free_hull_storage.
+
+.SH AUTHORS
+Ken Clarkson, \fIclarkson@research.bell-labs.com\fP,
+http://cm.bell-labs.com/who/clarkson,
+using an earlier version written by Susan Dorward, who is not to blame.
+

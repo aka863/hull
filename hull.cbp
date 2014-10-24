@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="hull" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Release Win32">
+				<Option output="./Release/hulll" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Release" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-W" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="misc" />
+					<Add directory="mesh" />
+					<Add directory="cov" />
+					<Add directory="ocxml" />
+				</ResourceCompiler>
+			</Target>
+			<Target title="Debug Win32">
+				<Option output="./hull" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Debug" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-D_DEBUG" />
+					<Add option="-DWIN32" />
+					<Add option="-D_CONSOLE" />
+					<Add option="-W" />
+					<Add option="-O0" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Unit filename="ch.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="getopt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="getopt.h" />
+		<Unit filename="hull.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="hull.h" />
+		<Unit filename="hullmain.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="io.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="pointops.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="points.h" />
+		<Unit filename="pointsites.h" />
+		<Unit filename="rand.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stormacs.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
