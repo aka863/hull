@@ -8,3 +8,16 @@ Author:
 Ken Clarkson,
 clarkson@research.bell-labs.com,
 http://cm.bell-labs.com/who/clarkson.
+
+
+Ken Clarkson先生的版本，在windows中编译时会出现一些错误，我改正了这些错误，使本程序可以在windows版本的CodeBlocks中编译。
+
+这个程序对点的数量有限制：
+原始文件中都是10000
+所以当点数超过1万时，会出错。
+
+hull.h
+#define MAXPOINTS 10000
+
+pointsites.h
+#define MAXBLOCKS 10000
