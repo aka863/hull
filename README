@@ -22,3 +22,52 @@ hull.h
 
 pointsites.h
 #define MAXBLOCKS 10000
+
+
+
+##Synopsis
+
+hull -d -f<format> -A -aa<alpha> -af<format> -oN -ov -s<seed> -r -m<multiplier> -X<debug_file> -i<input_file> -oF<output_file>
+Description
+The input_file (default stdin) is a sequence of points (also called sites), separated by \n; a d-dimensional point is specified as a group of d floats separated by whitespace (other than \n).
+The output_file (default stdout) gives d-tuples of the input points, where a point is given as an integer i if it was the i'th point in the input_file. If the convex hull lies in a flat (affine subspace) of dimension d', the output will comprise a list of d'-tuples, the vertices of the convex hull relative to that flat.
+
+The output tuples represent the facets of the convex hull of the input set. A facet which is not a simplex is output implicitly as the collection of simplices of its triangulation.
+
+The output for Delaunay triangulation includes a "point at infinity", numbered -1; facets including it correspond to facets of the convex hull of the sites.
+
+Some chatter will appear on debug_file (default stderr).
+
+The coordinates of the input points are rounded to integers. With -m<multiplier>, the coordinates are multiplied by multiplier before this rounding.
+
+The program attempts to use a method that gives exact answers to numerical tests; in some circumstances, this may fail, and with some warnings, the program continues, using approximate arithmetic.
+
+##More detail on the options:
+
+-d
+compute the Delaunay triangulation of the input set.
+-f<format>
+give the main output (convex hull or Delaunay triangulation) in output <format>, which is by default the list of vertex numbers described above, or ps, for postscript output of planar points, or off, for OFF output of 3d points.
+-aa<alpha>
+compute the alpha shape using parameter < alpha >: the output is the set of all d-tuples of sites such that there is a ball of radius < alpha > containing those sites on its bounding sphere, and containing no other sites. A Delaunay triangulation computation is implied by this option and by -A.
+-af<format>
+output the alpha shape in format <format>, as in option -f.
+-A
+compute the alpha shape of the input, finding the smallest alpha so that the sites are all contained in the alpha-shape.
+-r
+randomly shuffle the input points; this may speed up the program.
+-s<seed>
+randomly shuffle using < seed > for the random number generator.
+-oN
+do not produce main output (convex hull or Delaunay triangulation). If you want an alpha shape only, you need this to turn off the Delaunay output.
+-ov
+Give volumes of Voronoi regions of input sites, and in general d'-volumes of d'-dimensional Voronoi cells. Implies -d.
+Bugs/Portability
+If the convex hull is a single point, the algorithm will fail to report it. All other degeneracies should be handled. Tie-breaking is done so that all reported facets are simplices. If the input points are degenerate, some hull facets may be; for example, some Delaunay simplices may have zero volume. Determining non-simplicial facets or deleting zero-volume Delaunauy simplices could be done in post-processing (not implemented).
+The file rand.c includes calls to pseudo-random number generators;
+
+No simplices are deleted; the only way to free storage is to free it all using free_hull_storage.
+
+##Author
+Ken Clarkson, (clarkson@research.bell-labs.com),
+using an earlier version written by Susan Dorward, who is not to blame.
